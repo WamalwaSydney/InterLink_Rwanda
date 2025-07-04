@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+  <title>Reviews</title>
+</head>
+<body>
+  <h2>Reviews for your application</h2>
+  {% for review in reviews %}
+    <p><strong>{{ review.reviewer_username }}:</strong> {{ review.comment }}</p>
+  {% endfor %}
+  <form method="POST">
+    <textarea name="comment" placeholder="Leave a peer review"></textarea><br>
+    <input type="submit" value="Submit Review">
+  </form>
+</body>
+</html>

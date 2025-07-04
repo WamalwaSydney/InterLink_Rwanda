@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Login - InterLink Rwanda{% endblock %}
+
+{% block content %}
+<div class="content-card" style="max-width: 500px; margin: 2rem auto;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <i class="fas fa-sign-in-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
+        <h2>Welcome Back!</h2>
+        <p style="color: #666; margin-top: 0.5rem;">Sign in to your account</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">
+                <i class="fas fa-user"></i> Username
+            </label>
+            <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                <i class="fas fa-lock"></i> Password
+            </label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+        </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #eee;">
+        <p>Don't have an account?
+            <a href="{{ url_for('register') }}" style="color: #667eea; text-decoration: none; font-weight: 500;">
+                Sign up here
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}
