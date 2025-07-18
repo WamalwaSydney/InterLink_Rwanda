@@ -51,13 +51,34 @@
         <div>
             <div style="background: rgba(102, 126, 234, 0.05); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
                 {% if session.user_id %}
-                    <a href="{{ url_for('apply', job_id=job.id) }}"
-                       class="btn btn-primary" style="width: 100%; text-align: center; padding: 1rem; margin-bottom: 1rem;">
-                        <i class="fas fa-paper-plane"></i> Apply Now
-                    </a>
+                    {% set current_user = get_current_user() %}
+                    {% if current_user and current_user.role == 'job_seeker' %}
+                        <!-- Check if user already applied -->
+                        {% set user_application = applications | selectattr('user_id', 'equalto', session.user_id) | first %}
+                        {% if user_application %}
+                            <div style="text-align: center; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px; margin-bottom: 1rem;">
+                                <i class="fas fa-check-circle" style="color: #4caf50; font-size: 1.2rem;"></i>
+                                <p style="color: #2e7d32; margin: 0.5rem 0 0 0; font-weight: 500;">Already Applied</p>
+                            </div>
+                        {% else %}
+                            <a href="{{ url_for('apply', job_id=job.id) }}"
+                               style="display: block; width: 100%; text-align: center; padding: 1rem; margin-bottom: 1rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 500; transition: all 0.3s ease;"
+                               onmouseover="this.style.background='#5a67d8'"
+                               onmouseout="this.style.background='#667eea'">
+                                <i class="fas fa-paper-plane"></i> Apply Now
+                            </a>
+                        {% endif %}
+                    {% elif current_user and current_user.role == 'job_provider' %}
+                        <div style="text-align: center; padding: 1rem; background: rgba(255, 193, 7, 0.1); border-radius: 8px; margin-bottom: 1rem;">
+                            <i class="fas fa-info-circle" style="color: #f57c00; font-size: 1.2rem;"></i>
+                            <p style="color: #f57c00; margin: 0.5rem 0 0 0; font-weight: 500;">Job providers cannot apply</p>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <a href="{{ url_for('login') }}"
-                       class="btn btn-primary" style="width: 100%; text-align: center; padding: 1rem; margin-bottom: 1rem;">
+                       style="display: block; width: 100%; text-align: center; padding: 1rem; margin-bottom: 1rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 500; transition: all 0.3s ease;"
+                       onmouseover="this.style.background='#5a67d8'"
+                       onmouseout="this.style.background='#667eea'">
                         <i class="fas fa-sign-in-alt"></i> Login to Apply
                     </a>
                 {% endif %}

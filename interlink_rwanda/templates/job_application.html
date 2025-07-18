@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply for {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Apply for "{{ job.title }}"</h2>
+    <p class="text-muted">at {{ job.company }} – {{ job.location }}</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="message" class="form-label">Application Message</label>
+            <textarea class="form-control" name="message" id="message" rows="5" required></textarea>
+        </div>
+
+        <div class="form-check mb-2">
+            <input type="checkbox" class="form-check-input" name="is_public" id="is_public">
+            <label class="form-check-label" for="is_public">Make my application public for peer review</label>
+        </div>
+
+        <hr>
+
+        <h5>CV</h5>
+        {% if user.default_cv %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="use_default_cv" id="use_default_cv">
+                <label class="form-check-label" for="use_default_cv">
+                    Use default CV ({{ user.default_cv }})
+                </label>
+            </div>
+        {% endif %}
+        <div class="mb-3">
+            <label for="cv" class="form-label">Upload CV (PDF, DOC, DOCX, TXT)</label>
+            <input class="form-control" type="file" name="cv" id="cv" accept=".pdf,.doc,.docx,.txt">
+        </div>
+
+        <hr>
+
+        <h5>Cover Letter</h5>
+        {% if user.default_cover_letter %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="use_default_cover" id="use_default_cover">
+                <label class="form-check-label" for="use_default_cover">
+                    Use default cover letter ({{ user.default_cover_letter }})
+                </label>
+            </div>
+        {% endif %}
+        <div class="mb-3">
+            <label for="cover_letter" class="form-label">Upload Cover Letter (PDF, DOC, DOCX, TXT)</label>
+            <input class="form-control" type="file" name="cover_letter" id="cover_letter" accept=".pdf,.doc,.docx,.txt">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Submit Application</button>
+        <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}

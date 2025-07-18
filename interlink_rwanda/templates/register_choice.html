@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Choose Role - InterLink Rwanda{% endblock %}
+
+{% block content %}
+<div class="content-card" style="max-width: 600px; margin: 3rem auto; text-align: center;">
+    <h2>Join InterLink Rwanda</h2>
+    <p class="mb-4">Select your role to continue registration</p>
+    <div style="display: flex; justify-content: space-around;">
+        <a href="{{ url_for('register_job_seeker') }}" class="btn btn-success">
+            <i class="fas fa-user"></i> I'm a Job Seeker
+        </a>
+        <a href="{{ url_for('register_job_provider') }}" class="btn btn-info">
+            <i class="fas fa-building"></i> I'm a Job Provider
+        </a>
+    </div>
+</div>
+{% endblock %}
