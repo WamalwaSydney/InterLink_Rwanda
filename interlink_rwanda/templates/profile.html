@@ -3,60 +3,57 @@
 {% block title %}My Profile - InterLink Rwanda{% endblock %}
 
 {% block content %}
-<div class="content-card">
+<div class="content-card" style="padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
     <div style="text-align: center; margin-bottom: 2rem;">
         <i class="fas fa-user-circle" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-        <h2>My Profile</h2>
-        <p style="color: #666;">Manage your profile and default documents</p>
+        <h2 style="margin: 0;">My Profile</h2>
+        <p style="color: #666; margin-top: 0.5rem;">Manage your profile and default documents</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+            <!-- Basic Info -->
             <div>
                 <h3 style="color: #333; margin-bottom: 1rem;">
                     <i class="fas fa-user"></i> Basic Information
                 </h3>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
                     <label>Username</label>
                     <input type="text" value="{{ user.username }}" disabled
-                           style="background: #f5f5f5; color: #666;">
+                           style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 5px; background: #f5f5f5; color: #666;">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
                     <label>Email</label>
                     <input type="email" value="{{ user.email }}" disabled
-                           style="background: #f5f5f5; color: #666;">
+                           style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 5px; background: #f5f5f5; color: #666;">
                 </div>
 
-                <div class="form-group">
-                    <label for="skills">
-                        <i class="fas fa-tools"></i> Skills
-                    </label>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="skills"><i class="fas fa-tools"></i> Skills</label>
                     <textarea id="skills" name="skills"
                               placeholder="List your skills (e.g., Python, JavaScript, Marketing, Design)"
-                              style="min-height: 100px;">{{ user.skills or '' }}</textarea>
+                              style="width: 100%; min-height: 100px; padding: 0.6rem; border: 1px solid #ccc; border-radius: 5px;">{{ user.skills or '' }}</textarea>
                 </div>
 
-                <div class="form-group">
-                    <p style="color: #666; font-size: 0.9rem;">
-                        <i class="fas fa-info-circle"></i>
-                        Member since: {{ user.created_at.strftime('%B %d, %Y') }}
-                    </p>
+                <div class="form-group" style="color: #666; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i>
+                    Member since: {{ user.created_at.strftime('%B %d, %Y') }}
                 </div>
             </div>
 
+            <!-- Default Documents -->
             <div>
                 <h3 style="color: #333; margin-bottom: 1rem;">
                     <i class="fas fa-folder"></i> Default Documents
                 </h3>
 
-                <div class="form-group">
-                    <label for="default_cv">
-                        <i class="fas fa-file-pdf"></i> Default CV/Resume
-                    </label>
+                <!-- CV -->
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="default_cv"><i class="fas fa-file-pdf"></i> Default CV/Resume</label>
                     {% if user.default_cv %}
-                        <div style="background: rgba(76, 175, 80, 0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
+                        <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; border-left: 4px solid #4caf50; margin-top: 0.5rem;">
                             <p style="margin: 0; color: #2e7d32;">
                                 <i class="fas fa-check-circle"></i> Current CV: {{ user.default_cv }}
                                 <br>
@@ -68,18 +65,17 @@
                         </div>
                     {% endif %}
                     <input type="file" id="default_cv" name="default_cv" accept=".pdf,.doc,.docx,.txt"
-                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-top: 0.5rem;">
                     <small style="color: #666; font-size: 0.8rem;">
                         Upload a new CV to replace the current one. Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)
                     </small>
                 </div>
 
-                <div class="form-group">
-                    <label for="default_cover_letter">
-                        <i class="fas fa-file-alt"></i> Default Cover Letter
-                    </label>
+                <!-- Cover Letter -->
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="default_cover_letter"><i class="fas fa-file-alt"></i> Default Cover Letter</label>
                     {% if user.default_cover_letter %}
-                        <div style="background: rgba(76, 175, 80, 0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
+                        <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; border-left: 4px solid #4caf50; margin-top: 0.5rem;">
                             <p style="margin: 0; color: #2e7d32;">
                                 <i class="fas fa-check-circle"></i> Current Cover Letter: {{ user.default_cover_letter }}
                                 <br>
@@ -91,17 +87,18 @@
                         </div>
                     {% endif %}
                     <input type="file" id="default_cover_letter" name="default_cover_letter" accept=".pdf,.doc,.docx,.txt"
-                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-top: 0.5rem;">
                     <small style="color: #666; font-size: 0.8rem;">
                         Upload a new cover letter to replace the current one. Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)
                     </small>
                 </div>
 
-                <div style="background: rgba(33, 150, 243, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid #2196f3;">
+                <!-- Tips -->
+                <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #2196f3;">
                     <h4 style="color: #1976d2; margin-bottom: 1rem;">
                         <i class="fas fa-lightbulb"></i> Pro Tips
                     </h4>
-                    <ul style="color: #555; padding-left: 1.5rem; margin: 0;">
+                    <ul style="color: #555; padding-left: 1.2rem; margin: 0;">
                         <li>Keep your default documents updated</li>
                         <li>Use professional file names</li>
                         <li>Tailor your skills to match job requirements</li>
@@ -111,8 +108,9 @@
             </div>
         </div>
 
-        <div style="margin-top: 2rem; text-align: center;">
-            <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem;">
+        <!-- Submit -->
+        <div style="margin-top: 2.5rem; text-align: center;">
+            <button type="submit" style="background: #4caf50; color: white; padding: 0.8rem 2rem; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer;">
                 <i class="fas fa-save"></i> Update Profile
             </button>
         </div>
