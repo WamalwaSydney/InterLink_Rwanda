@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}Review Application - {{ application.job.title }}{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .application-header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .application-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .card-section {
+        padding: 25px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .card-section:last-child {
+        border-bottom: none;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .applicant-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .applicant-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .application-message {
+        background: #f8f9ff;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #4facfe;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .file-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .file-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 15px;
+        background: #4facfe;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .file-link:hover {
+        background: #3a8bfd;
+        transform: translateY(-2px);
+    }
+
+    .review-form {
+        background: #f8f9ff;
+        padding: 25px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .rating-input {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .star-input {
+        font-size: 2rem;
+        color: #e9ecef;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .star-input:hover,
+    .star-input.active {
+        color: #ffc107;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        resize: vertical;
+    }
+
+    .form-textarea:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .existing-reviews {
+        margin-top: 30px;
+    }
+
+    .review-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #4facfe;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .reviewer-info {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .review-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .star-rating {
+        display: flex;
+        gap: 2px;
+    }
+
+    .star {
+        color: #ffc107;
+        font-size: 1rem;
+    }
+
+    .already-reviewed {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="application-header">
+        <h1>Review Application</h1>
+        <p>{{ application.job.title }} at {{ application.job.company }}</p>
+    </div>
+
+    <div class="application-card">
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-user"></i>
+                Applicant Information
+            </div>
+            <div class="applicant-info">
+                <div class="applicant-avatar">
+                    {{ application.user.username[:2].upper() }}
+                </div>
+                <div>
+                    <h3>{{ application.user.username }}</h3>
+                    <p style="color: #666;">Applied on {{ application.applied_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                    {% if application.user.skills %}
+                    <p style="color: #4facfe; margin-top: 5px;"><strong>Skills:</strong> {{ application.user.skills }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-envelope"></i>
+                Application Message
+            </div>
+            <div class="application-message">
+                {{ application.message }}
+            </div>
+            
+            {% if application.cv_filename or application.cover_letter_filename %}
+            <div class="file-links">
+                {% if application.cv_filename %}
+                <a href="{{ url_for('download_file', filename=application.cv_filename) }}" class="file-link">
+                    <i class="fas fa-file-pdf"></i>
+                    Download CV
+                </a>
+                {% endif %}
+                {% if application.cover_letter_filename %}
+                <a href="{{ url_for('download_file', filename=application.cover_letter_filename) }}" class="file-link">
+                    <i class="fas fa-file-alt"></i>
+                    Download Cover Letter
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if not user_review %}
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-star"></i>
+                Leave Your Review
+            </div>
+            
+            <form method="POST" class="review-form">
+                <div class="form-group">
+                    <label class="form-label">Rating (1-5 stars):</label>
+                    <div class="rating-input" id="rating-stars">
+                        <i class="fas fa-star star-input" data-rating="1"></i>
+                        <i class="fas fa-star star-input" data-rating="2"></i>
+                        <i class="fas fa-star star-input" data-rating="3"></i>
+                        <i class="fas fa-star star-input" data-rating="4"></i>
+                        <i class="fas fa-star star-input" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" name="rating" id="rating-value" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="form-label">Your Feedback:</label>
+                    <textarea name="comment" id="comment" class="form-textarea" 
+                              placeholder="Provide constructive feedback to help this applicant improve..." 
+                              required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Review
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div class="already-reviewed">
+            <i class="fas fa-check-circle"></i>
+            You have already reviewed this application
+        </div>
+        {% endif %}
+    </div>
+
+    {% if reviews %}
+    <div class="existing-reviews">
+        <h3 style="margin-bottom: 20px; color: #333;">
+            <i class="fas fa-comments"></i>
+            Existing Reviews ({{ reviews|length }})
+        </h3>
+        
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <div>
+                    <div class="reviewer-info">{{ review.reviewer.username }}</div>
+                    <div class="review-date">{{ review.created_at.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                </div>
+                <div class="star-rating">
+                    {% for i in range(1, 6) %}
+                        {% if i <= review.rating %}
+                            <i class="fas fa-star star"></i>
+                        {% else %}
+                            <i class="fas fa-star star" style="color: #e9ecef;"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div style="margin-top: 10px; color: #555; line-height: 1.6;">
+                {{ review.comment }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('peer_reviews') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Back to Peer Reviews
+        </a>
+    </div>
+</div>
+
+<script>
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star-input');
+    const ratingValue = document.getElementById('rating-value');
+    let currentRating = 0;
+
+    stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            currentRating = index + 1;
+            ratingValue.value = currentRating;
+            updateStars();
+        });
+
+        star.addEventListener('mouseover', () => {
+            highlightStars(index + 1);
+        });
+    });
+
+    document.getElementById('rating-stars').addEventListener('mouseleave', () => {
+        updateStars();
+    });
+
+    function updateStars() {
+        stars.forEach((star, index) => {
+            if (index < currentRating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    function highlightStars(rating) {
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.style.color = '#ffc107';
+            } else {
+                star.style.color = '#e9ecef';
+            }
+        });
+    }
+</script>
+{% endblock %}

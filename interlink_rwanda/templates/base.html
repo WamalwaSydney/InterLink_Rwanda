@@ -297,8 +297,16 @@
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 {% if session.user_id %}
                     <li><a href="{{ url_for('my_applications') }}">My Applications</a></li>
-                    <li><a href="{{ url_for('add_job') }}">Post Job</a></li>
                     <li><a href="{{ url_for('profile', user_id=session.user_id) }}">Profile</a></li>
+                    <!-- <li><a href="{{ url_for('add_job') }}">Post Job</a></li> -->
+                    {% if get_current_user() and get_current_user().role == 'job_seeker' %}
+                    <a href="{{ url_for('peer_reviews') }}" class="nav-link">
+                        <i class="fas fa-users"></i> Peer Reviews
+                    </a>
+                    <a href="{{ url_for('my_reviews') }}" class="nav-link">
+                        <i class="fas fa-chart-line"></i> My Reviews
+                    </a>
+                {% endif %}
                     <li><a href="{{ url_for('logout') }}">Logout ({{ session.username }})</a></li>
                 {% else %}
                     <li><a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a></li>

@@ -1,0 +1,15 @@
+{
+  "name": "whatsapp-job-bot",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+  "start": "bash start.sh",
+  "dev": "node whatsappBot.js"
+},
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.22.1"
+  }
+}

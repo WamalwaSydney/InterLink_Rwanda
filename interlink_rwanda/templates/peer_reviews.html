@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block title %}Peer Reviews - InternLink Rwanda{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+        color: #333;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .filters {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .applications-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 25px;
+    }
+
+    .application-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .application-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 20px;
+    }
+
+    .job-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .company-name {
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .applicant-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+    }
+
+    .applicant-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        padding: 12px;
+        background: #f8f9ff;
+        border-radius: 8px;
+    }
+
+    .stat {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-weight: bold;
+        color: #4facfe;
+        font-size: 1.1rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 2px;
+    }
+
+    .star-rating {
+        display: flex;
+        gap: 2px;
+        align-items: center;
+    }
+
+    .star {
+        color: #ffc107;
+        font-size: 0.9rem;
+    }
+
+    .star.empty {
+        color: #e9ecef;
+    }
+
+    .message-preview {
+        color: #555;
+        font-style: italic;
+        margin-bottom: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .review-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .status-reviewed {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-not-reviewed {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: #4facfe;
+        border: 2px solid #4facfe;
+    }
+
+    .btn-outline:hover {
+        background: #4facfe;
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        margin-top: 30px;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #e9ecef;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1><i class="fas fa-users"></i> Peer Review Center</h1>
+        <p>Help fellow job seekers improve their applications with constructive feedback</p>
+    </div>
+
+    {% if applications %}
+    <div class="applications-grid">
+        {% for app_data in applications %}
+        <div class="application-card">
+            <div class="card-header">
+                <div class="job-title">{{ app_data.application.job.title }}</div>
+                <div class="company-name">{{ app_data.application.job.company }}</div>
+            </div>
+            
+            <div class="card-body">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        {{ app_data.application.user.username[:2].upper() }}
+                    </div>
+                    <div class="applicant-details">
+                        <h4>{{ app_data.application.user.username }}</h4>
+                        <div class="apply-date">
+                            Applied {{ app_data.application.applied_at.strftime('%B %d, %Y') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value">
+                            {% if app_data.avg_rating > 0 %}
+                                {{ app_data.avg_rating }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                        <div class="stat-label">Avg Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">{{ app_data.review_count }}</div>
+                        <div class="stat-label">Reviews</div>
+                    </div>
+                    <div class="stat">
+                        <div class="star-rating">
+                            {% if app_data.avg_rating > 0 %}
+                                {% for i in range(1, 6) %}
+                                    {% if i <= app_data.avg_rating %}
+                                        <i class="fas fa-star star"></i>
+                                    {% else %}
+                                        <i class="fas fa-star star empty"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <span style="color: #999; font-size: 0.8rem;">No ratings yet</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-preview">
+                    "{{ app_data.application.message[:150] }}{% if app_data.application.message|length > 150 %}...{% endif %}"
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    {% if app_data.user_has_reviewed %}
+                        <span class="review-status status-reviewed">
+                            <i class="fas fa-check"></i>
+                            You've reviewed this
+                        </span>
+                    {% else %}
+                        <span class="review-status status-not-reviewed">
+                            <i class="fas fa-clock"></i>
+                            Available for review
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('review_application_detailed', application_id=app_data.application.id) }}" class="btn btn-primary">
+                        <i class="fas fa-eye"></i>
+                        View & Review
+                    </a>
+                    {% if app_data.application.cv_filename %}
+                    <a href="{{ url_for('download_file', filename=app_data.application.cv_filename) }}" class="btn btn-outline">
+                        <i class="fas fa-download"></i>
+                        Download CV
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-search"></i>
+        <h3>No Applications Available</h3>
+        <p>There are currently no public applications available for peer review. Check back later!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
