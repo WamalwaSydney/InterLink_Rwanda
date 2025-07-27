@@ -1,17 +1,91 @@
-# Node.js
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+interlink_env/
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.db
+*.sqlite3
+
+# Node.js and npm
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
 
-# Puppeteer Chromium downloads
-**/.local-chromium/
+# WhatsApp Web JS session data
+.wwebjs_auth/
+.wwebjs_cache/
 
-# Python
-*.pyc
-__pycache__/
-.env
-*.env
+# Uploads and user data
+uploads/
+temp/
 
-# VSCode
+# IDE and Editor
 .vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large binaries and cache
+*.dmg
+*.pkg
+*.deb
+*.rpm
+.local-chromium/
+chrome-linux/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
