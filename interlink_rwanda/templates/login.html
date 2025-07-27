@@ -3,39 +3,44 @@
 {% block title %}Login - InterLink Rwanda{% endblock %}
 
 {% block content %}
-<div class="content-card" style="max-width: 500px; margin: 2rem auto;">
+<div class="content-card" style="max-width: 420px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     <div style="text-align: center; margin-bottom: 2rem;">
-        <i class="fas fa-sign-in-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-        <h2>Welcome Back!</h2>
-        <p style="color: #666;">Sign in to your account</p>
+        <i class="fas fa-sign-in-alt" style="font-size: 3rem; color: #4c51bf; margin-bottom: 1rem;"></i>
+        <h2 style="margin-bottom: 0.5rem;">Welcome Back</h2>
+        <p style="color: #666;">Sign in to continue to your dashboard</p>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
+        <div class="alert alert-{{ category }}" style="margin-bottom: 1rem;">{{ message }}</div>
       {% endfor %}
     {% endwith %}
 
-    <form method="POST">
-        <div class="form-group">
-            <label for="username"><i class="fas fa-user"></i> Username</label>
-            <input type="text" id="username" name="username" required>
+    <form method="POST" novalidate>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="username" style="display: block; font-weight: 600;">
+                <i class="fas fa-user"></i> Username
+            </label>
+            <input type="text" id="username" name="username" required placeholder="Enter your username"
+                   style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; margin-top: 0.5rem;">
         </div>
 
-        <div class="form-group">
-            <label for="password"><i class="fas fa-lock"></i> Password</label>
-            <input type="password" id="password" name="password" required>
+        <div class="form-group" style="margin-bottom: 2rem;">
+            <label for="password" style="display: block; font-weight: 600;">
+                <i class="fas fa-lock"></i> Password
+            </label>
+            <input type="password" id="password" name="password" required placeholder="Enter your password"
+                   style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; margin-top: 0.5rem;">
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
-            <i class="fas fa-sign-in-alt"></i> Sign In
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 1rem; border-radius: 6px; background-color: #4c51bf; color: white; border: none;">
+            <i class="fas fa-sign-in-alt" style="margin-right: 0.5rem;"></i> Sign In
         </button>
     </form>
 
-    <div class="text-center mt-4">
-        <p>Don't have an account?
-            <a href="{{ url_for('register') }}">Sign up here</a>
-        </p>
+    <div class="text-center" style="margin-top: 2rem;">
+        <p style="font-size: 0.9rem;">Don't have an account? <a href="{{ url_for('register') }}" style="color: #4c51bf;">Sign up here</a></p>
     </div>
 </div>
 {% endblock %}
+
