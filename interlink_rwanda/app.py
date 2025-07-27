@@ -15,6 +15,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 from flask_mail import Mail, Message
 
+
 # Mail config
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -684,8 +685,6 @@ def post_job_to_whatsapp(job):
         print("❌ Failed to send job to WhatsApp:", str(e))
 
 #Review Routes
-
-# Add these routes to your existing Flask app
 
 @app.route('/peer-reviews')
 @login_required
