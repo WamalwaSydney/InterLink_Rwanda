@@ -3,43 +3,37 @@
 {% block title %}My Profile - InterLink Rwanda{% endblock %}
 
 {% block content %}
-<div class="content-card">
+<div class="content-card" style="max-width: 1000px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
     <div style="text-align: center; margin-bottom: 2rem;">
         <i class="fas fa-user-circle" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-        <h2>My Profile</h2>
-        <p style="color: #666;">Manage your profile and default documents</p>
+        <h2 style="margin: 0; font-weight: 600;">My Profile</h2>
+        <p style="color: #777; font-size: 0.95rem;">Manage your profile and default documents</p>
     </div>
 
     <form method="POST" enctype="multipart/form-data">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
             <div>
-                <h3 style="color: #333; margin-bottom: 1rem;">
+                <h3 style="color: #444; font-size: 1.2rem; margin-bottom: 1.5rem;">
                     <i class="fas fa-user"></i> Basic Information
                 </h3>
 
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" value="{{ user.username }}" disabled
-                           style="background: #f5f5f5; color: #666;">
+                    <input type="text" value="{{ user.username }}" disabled style="width: 100%; background: #f9f9f9; color: #555; border: 1px solid #ddd; padding: 0.5rem; border-radius: 5px;">
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" value="{{ user.email }}" disabled
-                           style="background: #f5f5f5; color: #666;">
+                    <input type="email" value="{{ user.email }}" disabled style="width: 100%; background: #f9f9f9; color: #555; border: 1px solid #ddd; padding: 0.5rem; border-radius: 5px;">
                 </div>
 
                 <div class="form-group">
-                    <label for="skills">
-                        <i class="fas fa-tools"></i> Skills
-                    </label>
-                    <textarea id="skills" name="skills"
-                              placeholder="List your skills (e.g., Python, JavaScript, Marketing, Design)"
-                              style="min-height: 100px;">{{ user.skills or '' }}</textarea>
+                    <label for="skills"><i class="fas fa-tools"></i> Skills</label>
+                    <textarea id="skills" name="skills" placeholder="List your skills (e.g., Python, JavaScript, Marketing, Design)" style="width: 100%; min-height: 100px; border: 1px solid #ccc; border-radius: 5px; padding: 0.5rem;">{{ user.skills or '' }}</textarea>
                 </div>
 
                 <div class="form-group">
-                    <p style="color: #666; font-size: 0.9rem;">
+                    <p style="color: #888; font-size: 0.85rem;">
                         <i class="fas fa-info-circle"></i>
                         Member since: {{ user.created_at.strftime('%B %d, %Y') }}
                     </p>
@@ -47,61 +41,47 @@
             </div>
 
             <div>
-                <h3 style="color: #333; margin-bottom: 1rem;">
+                <h3 style="color: #444; font-size: 1.2rem; margin-bottom: 1.5rem;">
                     <i class="fas fa-folder"></i> Default Documents
                 </h3>
 
                 <div class="form-group">
-                    <label for="default_cv">
-                        <i class="fas fa-file-pdf"></i> Default CV/Resume
-                    </label>
+                    <label for="default_cv"><i class="fas fa-file-pdf"></i> Default CV/Resume</label>
                     {% if user.default_cv %}
-                        <div style="background: rgba(76, 175, 80, 0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
-                            <p style="margin: 0; color: #2e7d32;">
-                                <i class="fas fa-check-circle"></i> Current CV: {{ user.default_cv }}
-                                <br>
-                                <a href="{{ url_for('download_file', filename=user.default_cv) }}"
-                                   style="color: #2e7d32; text-decoration: none; font-size: 0.9rem;">
+                        <div style="background: #f1f8f5; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
+                            <p style="margin: 0; color: #2e7d32; font-size: 0.95rem;">
+                                <i class="fas fa-check-circle"></i> Current CV: {{ user.default_cv }}<br>
+                                <a href="{{ url_for('download_file', filename=user.default_cv) }}" style="color: #2e7d32; text-decoration: none;">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </p>
                         </div>
                     {% endif %}
-                    <input type="file" id="default_cv" name="default_cv" accept=".pdf,.doc,.docx,.txt"
-                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                    <small style="color: #666; font-size: 0.8rem;">
-                        Upload a new CV to replace the current one. Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)
-                    </small>
+                    <input type="file" id="default_cv" name="default_cv" accept=".pdf,.doc,.docx,.txt" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px;">
+                    <small style="color: #777; font-size: 0.8rem;">Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="default_cover_letter">
-                        <i class="fas fa-file-alt"></i> Default Cover Letter
-                    </label>
+                    <label for="default_cover_letter"><i class="fas fa-file-alt"></i> Default Cover Letter</label>
                     {% if user.default_cover_letter %}
-                        <div style="background: rgba(76, 175, 80, 0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
-                            <p style="margin: 0; color: #2e7d32;">
-                                <i class="fas fa-check-circle"></i> Current Cover Letter: {{ user.default_cover_letter }}
-                                <br>
-                                <a href="{{ url_for('download_file', filename=user.default_cover_letter) }}"
-                                   style="color: #2e7d32; text-decoration: none; font-size: 0.9rem;">
+                        <div style="background: #f1f8f5; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #4caf50;">
+                            <p style="margin: 0; color: #2e7d32; font-size: 0.95rem;">
+                                <i class="fas fa-check-circle"></i> Current Cover Letter: {{ user.default_cover_letter }}<br>
+                                <a href="{{ url_for('download_file', filename=user.default_cover_letter) }}" style="color: #2e7d32; text-decoration: none;">
                                     <i class="fas fa-download"></i> Download
                                 </a>
                             </p>
                         </div>
                     {% endif %}
-                    <input type="file" id="default_cover_letter" name="default_cover_letter" accept=".pdf,.doc,.docx,.txt"
-                           style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                    <small style="color: #666; font-size: 0.8rem;">
-                        Upload a new cover letter to replace the current one. Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)
-                    </small>
+                    <input type="file" id="default_cover_letter" name="default_cover_letter" accept=".pdf,.doc,.docx,.txt" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px;">
+                    <small style="color: #777; font-size: 0.8rem;">Supported formats: PDF, DOC, DOCX, TXT (Max 16MB)</small>
                 </div>
 
-                <div style="background: rgba(33, 150, 243, 0.05); padding: 1.5rem; border-radius: 10px; border-left: 4px solid #2196f3;">
-                    <h4 style="color: #1976d2; margin-bottom: 1rem;">
+                <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #2196f3;">
+                    <h4 style="color: #1976d2; font-weight: 600; margin-bottom: 1rem;">
                         <i class="fas fa-lightbulb"></i> Pro Tips
                     </h4>
-                    <ul style="color: #555; padding-left: 1.5rem; margin: 0;">
+                    <ul style="color: #555; padding-left: 1.5rem; font-size: 0.95rem;">
                         <li>Keep your default documents updated</li>
                         <li>Use professional file names</li>
                         <li>Tailor your skills to match job requirements</li>
@@ -112,7 +92,7 @@
         </div>
 
         <div style="margin-top: 2rem; text-align: center;">
-            <button type="submit" class="btn btn-primary" style="padding: 1rem 2rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 0.8rem 2rem; font-size: 1rem;">
                 <i class="fas fa-save"></i> Update Profile
             </button>
         </div>
