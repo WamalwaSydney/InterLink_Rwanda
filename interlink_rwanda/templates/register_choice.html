@@ -3,15 +3,19 @@
 {% block title %}Choose Role - InterLink Rwanda{% endblock %}
 
 {% block content %}
-<div class="content-card" style="max-width: 600px; margin: 3rem auto; text-align: center;">
-    <h2>Join InterLink Rwanda</h2>
-    <p class="mb-4">Select your role to continue registration</p>
-    <div style="display: flex; justify-content: space-around;">
-        <a href="{{ url_for('register_job_seeker') }}" class="btn btn-success">
-            <i class="fas fa-user"></i> I'm a Job Seeker
+<div style="max-width: 600px; margin: 4rem auto; background-color: #f9f9f9; padding: 2.5rem; border-radius: 10px; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); text-align: center; font-family: Arial, sans-serif;">
+    <h2 style="margin-bottom: 0.8rem; color: #333;">Join InterLink Rwanda</h2>
+    <p style="margin-bottom: 2rem; color: #555; font-size: 1rem;">Select your role to continue registration</p>
+    
+    <div style="display: flex; justify-content: center; gap: 1.5rem;">
+        <a href="{{ url_for('register_job_seeker') }}"
+           style="padding: 12px 20px; background-color: #28a745; color: white; text-decoration: none; font-weight: bold; border-radius: 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s;">
+            <i class="fas fa-user" style="margin-right: 8px;"></i> I'm a Job Seeker
         </a>
-        <a href="{{ url_for('register_job_provider') }}" class="btn btn-info">
-            <i class="fas fa-building"></i> I'm a Job Provider
+        
+        <a href="{{ url_for('register_job_provider') }}"
+           style="padding: 12px 20px; background-color: #17a2b8; color: white; text-decoration: none; font-weight: bold; border-radius: 6px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s;">
+            <i class="fas fa-building" style="margin-right: 8px;"></i> I'm a Job Provider
         </a>
     </div>
 </div>
