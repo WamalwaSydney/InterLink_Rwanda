@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} - InterLink Rwanda{% endblock %}
+
+{% block content %}
+<div class="content-card">
+    <div style="margin-bottom: 2rem;">
+        <a href="{{ url_for('index') }}" style="color: #667eea; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to Jobs
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+        <div>
+            <div style="margin-bottom: 2rem;">
+                <h1 style="color: #333; margin-bottom: 0.5rem;">{{ job.title }}</h1>
+                <p style="color: #667eea; font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">
+                    {{ job.company or 'Company Not Specified' }}
+                </p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    <i class="fas fa-map-marker-alt"></i> {{ job.location or 'Location Not Specified' }}
+                </p>
+                <p style="color: #666; font-size: 0.9rem;">
+                    <i class="fas fa-clock"></i> Posted {{ job.posted_at.strftime('%B %d, %Y') }}
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #333; margin-bottom: 1rem;">Job Description</h3>
+                <p style="color: #555; line-height: 1.6;">{{ job.description }}</p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #333; margin-bottom: 1rem;">Required Skills</h3>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px;">
+                    <span style="color: #667eea; font-weight: 500;">{{ job.skill_required }}</span>
+                </div>
+            </div>
+
+            {% if job.course_link %}
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #333; margin-bottom: 1rem;">Recommended Learning</h3>
+                <a href="{{ job.course_link }}" target="_blank"
+                   style="color: #667eea; text-decoration: none; display: inline-block; padding: 0.5rem 1rem; border: 2px solid #667eea; border-radius: 8px; transition: all 0.3s ease;">
+                    <i class="fas fa-external-link-alt"></i> View Course
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <div style="background: rgba(102, 126, 234, 0.05); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                {% if session.user_id %}
+                    {% set current_user = get_current_user() %}
+                    {% if current_user and current_user.role == 'job_seeker' %}
+                        <!-- Check if user already applied -->
+                        {% set user_application = applications | selectattr('user_id', 'equalto', session.user_id) | first %}
+                        {% if user_application %}
+                            <div style="text-align: center; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px; margin-bottom: 1rem;">
+                                <i class="fas fa-check-circle" style="color: #4caf50; font-size: 1.2rem;"></i>
+                                <p style="color: #2e7d32; margin: 0.5rem 0 0 0; font-weight: 500;">Already Applied</p>
+                            </div>
+                        {% else %}
